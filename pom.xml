@@ -7,11 +7,11 @@
 		<version>2.6.6</version>
 		<relativePath /> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>ru.tyumentsev.remember_the_pills</groupId>
-	<artifactId>remember_the_pills</artifactId>
+	<groupId>ru.tyumentsev.rememberthepillsbot</groupId>
+	<artifactId>rememberthepillsbot</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>remember_the_pills</name>
+	<name>remember-the-pills</name>
 	<description>Remember the pills telegram bot service</description>
 	<properties>
 		<java.version>17</java.version>
