@@ -12,6 +12,9 @@ import ru.tyumentsev.rememberthepillsbot.handlers.CallbackQueryHandler;
 import ru.tyumentsev.rememberthepillsbot.handlers.MessageHandler;
 import ru.tyumentsev.rememberthepillsbot.service.BotUserService;
 
+/**
+ * Processing all requests from user.
+ */
 @Component
 public class BotFacade {
 

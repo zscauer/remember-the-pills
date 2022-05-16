@@ -32,8 +32,7 @@ public class ReminderBot extends SpringWebhookBot {
 
     @Override
     public BotApiMethod<?> onWebhookUpdateReceived(Update update) {
-        BotApiMethod<?> replyToUser = botFacade.handleUpdate(update);
-        return replyToUser;
+        return botFacade.handleUpdate(update);
     }
 
     

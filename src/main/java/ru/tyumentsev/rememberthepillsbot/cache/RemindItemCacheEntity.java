@@ -11,8 +11,7 @@ import lombok.experimental.FieldDefaults;
 import ru.tyumentsev.rememberthepillsbot.bot.RemindItemState;
 
 /**
- * Used as a cache to save final object to database
- * when all fields of cache entity are filled.
+ * Used as a cache till all fields of cache entity will be filled.
  * 
  * @see RemindItem
  */

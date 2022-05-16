@@ -14,10 +14,17 @@ import lombok.experimental.FieldDefaults;
 import ru.tyumentsev.rememberthepillsbot.entity.BotUser;
 import ru.tyumentsev.rememberthepillsbot.handlers.UserRequestHandler;
 
+/**
+ * Provides access to all handlers and calls the necessary.
+ * 
+ * @see UserRequestHandler
+ * @see States
+ */
 @Component
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class BotStateContext {
     
+    // keeps all handlers to call needed later depending on user state
     Map<States, UserRequestHandler> messageHandlers = new HashMap<>();
     
     public BotStateContext(List<UserRequestHandler> userRequestHandlers) {

@@ -49,8 +49,10 @@ public class RoutineNotification {
     public static long getTimeLongValue(String time) {
         String hours = time.split(":")[0];
         String minutes = time.split(":")[1];
+        
         long hoursLong = Long.parseLong(hours) * (60 * 60_000);
         long minutesLong = Long.parseLong(minutes) * 60_000;
+        
         return hoursLong + minutesLong;
     }
 

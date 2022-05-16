@@ -58,8 +58,8 @@ public class EditRemindItemHandler implements UserRequestHandler {
             itemId = Long.parseLong(message.getText());
         }
 
-        RemindItem remindItem = botUser.getRemindItems().stream().filter(item -> item.getId() == itemId).findFirst()
-                .get();
+        RemindItem remindItem = botUser.getRemindItems().stream()
+                .filter(item -> item.getId() == itemId).findFirst().get();
         Set<RoutineNotification> routineNotifications = remindItem.getNotifications();
 
         StringBuilder routineNotificationDescription = new StringBuilder();
