@@ -1,12 +1,14 @@
 package ru.tyumentsev.rememberthepillsbot.bot;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import ru.tyumentsev.rememberthepillsbot.entity.BotUser;
 import ru.tyumentsev.rememberthepillsbot.handlers.CallbackQueryHandler;
 import ru.tyumentsev.rememberthepillsbot.handlers.MessageHandler;
@@ -16,14 +18,13 @@ import ru.tyumentsev.rememberthepillsbot.service.BotUserService;
  * Processing all requests from user.
  */
 @Component
+@RequiredArgsConstructor
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
 public class BotFacade {
 
-    @Autowired
-    private BotUserService botUserService;
-    @Autowired
-    private CallbackQueryHandler callbackQueryHandler;
-    @Autowired
-    private MessageHandler messageHandler;
+    BotUserService botUserService;
+    CallbackQueryHandler callbackQueryHandler;
+    MessageHandler messageHandler;
 
     public BotApiMethod<?> handleUpdate(Update update) {
         BotApiMethod<?> replyMessage = null;

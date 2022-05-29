@@ -3,7 +3,6 @@ package ru.tyumentsev.rememberthepillsbot.configuration;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.MessageSource;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.telegram.telegrambots.meta.TelegramBotsApi;
@@ -14,7 +13,6 @@ import org.telegram.telegrambots.updatesreceivers.DefaultWebhook;
 
 import lombok.AccessLevel;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import ru.tyumentsev.rememberthepillsbot.bot.ReminderBot;
@@ -22,8 +20,6 @@ import ru.tyumentsev.rememberthepillsbot.bot.ReminderBot;
 @Getter
 @Setter
 @Configuration
-@ComponentScan(basePackages = "ru.tyumentsev.rememberthepillsbot")
-@NoArgsConstructor
 @ConfigurationProperties(prefix = "applicationconfig")
 @FieldDefaults(level = AccessLevel.PRIVATE)
 public class ApplicationConfig {

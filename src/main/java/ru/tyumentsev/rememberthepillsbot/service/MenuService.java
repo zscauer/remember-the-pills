@@ -24,7 +24,7 @@ import ru.tyumentsev.rememberthepillsbot.entity.RoutineNotification;
  * Provides access to response messages with localized keyboards.
  */
 @Service
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class MenuService {
 
     LocaleMessageService localeMessageService;

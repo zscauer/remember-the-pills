@@ -4,7 +4,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -37,13 +36,9 @@ import ru.tyumentsev.rememberthepillsbot.service.ReplyMessageService;
 @RequiredArgsConstructor
 public class FillingNewRemindItemHandler implements UserRequestHandler {
     
-    @Autowired
     ReplyMessageService replyMessageService;
-    @Autowired
     RemindItemService remindItemService;
-    @Autowired
     BotUserService botUserService;
-    @Autowired
     RemindItemCacheService remindItemCacheService;
 
     SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd.MM.yyyy");
@@ -125,6 +120,8 @@ public class FillingNewRemindItemHandler implements UserRequestHandler {
 
         return replyMessageService.getReplyMessage(botUser, String.valueOf(chatId),
                 remindItemCacheEntity.getRemindItemState());
+
+
     }
 
     private void saveNewItem(RemindItemCacheEntity remindItemCacheEntity, BotUser botUser) {

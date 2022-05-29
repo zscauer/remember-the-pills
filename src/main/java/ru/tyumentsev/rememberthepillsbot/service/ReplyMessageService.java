@@ -3,11 +3,11 @@ package ru.tyumentsev.rememberthepillsbot.service;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 
 import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import ru.tyumentsev.rememberthepillsbot.bot.RemindItemState;
 import ru.tyumentsev.rememberthepillsbot.bot.States;
@@ -20,23 +20,26 @@ import ru.tyumentsev.rememberthepillsbot.entity.BotUser;
  * @see LocaleMessageService
  */
 @Service
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
 public class ReplyMessageService {
 
-    @Autowired
     LocaleMessageService localeMessageService;
-    @Autowired
     MenuService menuService;
 
-    Map<States, String> stateMessages = new HashMap<>();
+    Map<States, String> stateMessages = fillDefaultStateMessages();
 
-    public ReplyMessageService() {
-        stateMessages.put(RemindItemState.ITEM_SET_NAME, "reply.AskItemName");
-        stateMessages.put(RemindItemState.ITEM_SET_START_DATE, "reply.AskItemStartDate");
-        stateMessages.put(RemindItemState.ITEM_SET_END_DATE, "reply.AskItemEndDate");
-        stateMessages.put(RemindItemState.NOTIFICATION_ADD_TIME, "reply.AskNotificationTime");
-        stateMessages.put(RemindItemState.ERROR_INCORRECT_DATE_FORMAT, "reply.IncorrectDateFormatError");
-        stateMessages.put(RemindItemState.ITEM_SUCCESSFULLY_ADDED, "reply.ItemSuccessfullyAdded");
+    private Map<States, String> fillDefaultStateMessages() {
+        Map<States, String> messages = new HashMap<>();
+        
+        messages.put(RemindItemState.ITEM_SET_NAME, "reply.AskItemName");
+        messages.put(RemindItemState.ITEM_SET_START_DATE, "reply.AskItemStartDate");
+        messages.put(RemindItemState.ITEM_SET_END_DATE, "reply.AskItemEndDate");
+        messages.put(RemindItemState.NOTIFICATION_ADD_TIME, "reply.AskNotificationTime");
+        messages.put(RemindItemState.ERROR_INCORRECT_DATE_FORMAT, "reply.IncorrectDateFormatError");
+        messages.put(RemindItemState.ITEM_SUCCESSFULLY_ADDED, "reply.ItemSuccessfullyAdded");
+
+        return messages;
     }
 
     public SendMessage getReplyMessage(BotUser botUser, String chatId, States itemState) {

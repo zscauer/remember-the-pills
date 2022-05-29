@@ -1,8 +1,10 @@
 package ru.tyumentsev.rememberthepillsbot.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import ru.tyumentsev.rememberthepillsbot.cache.RemindItemCacheEntity;
 import ru.tyumentsev.rememberthepillsbot.repository.RemindItemCacheRepository;
 
@@ -12,9 +14,10 @@ import ru.tyumentsev.rememberthepillsbot.repository.RemindItemCacheRepository;
  * @see RemindItemCacheEntity
  */
 @Service
+@FieldDefaults(makeFinal = true, level = AccessLevel.PRIVATE)
+@RequiredArgsConstructor
 public class RemindItemCacheService {
     
-    @Autowired
     RemindItemCacheRepository remindItemMongoRepository;
 
     public RemindItemCacheEntity findByChatId(long chatId) {

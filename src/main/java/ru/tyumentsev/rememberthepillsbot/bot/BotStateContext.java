@@ -21,7 +21,7 @@ import ru.tyumentsev.rememberthepillsbot.handlers.UserRequestHandler;
  * @see States
  */
 @Component
-@FieldDefaults(level = AccessLevel.PRIVATE)
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class BotStateContext {
     
     // keeps all handlers to call needed later depending on user state

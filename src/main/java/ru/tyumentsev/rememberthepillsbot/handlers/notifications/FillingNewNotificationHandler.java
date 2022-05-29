@@ -1,7 +1,7 @@
 package ru.tyumentsev.rememberthepillsbot.handlers.notifications;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -9,7 +9,7 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.Message;
 
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
+import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 import ru.tyumentsev.rememberthepillsbot.bot.BotState;
 import ru.tyumentsev.rememberthepillsbot.bot.BotStateContext;
@@ -30,8 +30,8 @@ import ru.tyumentsev.rememberthepillsbot.service.ReplyMessageService;
  * @see NotificationCache
  */
 @Component
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
+@Setter
 public class FillingNewNotificationHandler implements UserRequestHandler {
 
     @Autowired
@@ -41,14 +41,14 @@ public class FillingNewNotificationHandler implements UserRequestHandler {
     @Autowired
     ReplyMessageService replyMessageService;
     @Autowired
-    ApplicationContext applicationContext;
+    @Lazy
+    BotStateContext botStateContext;
 
     @Override
     public SendMessage handle(BotUser botUser, BotApiObject botApiObject) {
 
         long chatId;
         long itemId;
-        BotStateContext botStateContext = applicationContext.getBean("botStateContext", BotStateContext.class);
 
         if (botApiObject.getClass() == CallbackQuery.class) {
             CallbackQuery callbackQuery = (CallbackQuery) botApiObject;

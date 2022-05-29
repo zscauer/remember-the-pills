@@ -1,6 +1,5 @@
 package ru.tyumentsev.rememberthepillsbot.handlers.menu;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -26,9 +25,7 @@ import ru.tyumentsev.rememberthepillsbot.service.MenuService;
 @RequiredArgsConstructor
 public class HelpMenuHandler implements UserRequestHandler {
 
-    @Autowired
     MenuService menuService;
-    @Autowired
     LocaleMessageService localeMessageService;
 
     @Override

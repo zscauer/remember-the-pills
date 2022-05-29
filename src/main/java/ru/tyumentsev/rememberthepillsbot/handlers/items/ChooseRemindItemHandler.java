@@ -5,7 +5,7 @@ import java.time.ZoneId;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -13,7 +13,6 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import ru.tyumentsev.rememberthepillsbot.bot.BotState;
 import ru.tyumentsev.rememberthepillsbot.bot.ReminderBot;
@@ -31,16 +30,16 @@ import ru.tyumentsev.rememberthepillsbot.service.MenuService;
  * @see UserRequestHandler
  */
 @Component
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class ChooseRemindItemHandler implements UserRequestHandler {
 
     @Autowired
     MenuService menuService;
     @Autowired
-    ApplicationContext applicationContext;
-    @Autowired
     LocaleMessageService localeMessageService;
+    @Autowired
+    @Lazy
+    ReminderBot reminderBot;
 
     // return list of user reminders with buttons under each to manage them.
     @Override
@@ -50,8 +49,6 @@ public class ChooseRemindItemHandler implements UserRequestHandler {
         String chatId = String.valueOf(callbackQuery.getMessage().getChatId());
         Set<RemindItem> remindItems = botUser.getRemindItems();
         StringBuilder remindItemDescription = new StringBuilder();
-
-        ReminderBot reminderBot = applicationContext.getBean("reminderBot", ReminderBot.class);
 
         for (RemindItem remindItem : remindItems) {
             remindItemDescription.delete(0, remindItemDescription.length());

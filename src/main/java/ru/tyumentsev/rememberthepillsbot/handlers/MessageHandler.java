@@ -1,6 +1,5 @@
 package ru.tyumentsev.rememberthepillsbot.handlers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -25,7 +24,6 @@ import ru.tyumentsev.rememberthepillsbot.entity.BotUser;
 @Slf4j
 public class MessageHandler {
 
-    @Autowired
     BotStateContext botStateContext;
 
     public BotApiMethod<?> replyMessage(Message inputMessage, BotUser botUser) {

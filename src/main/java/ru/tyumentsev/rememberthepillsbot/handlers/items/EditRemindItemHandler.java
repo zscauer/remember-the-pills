@@ -3,7 +3,7 @@ package ru.tyumentsev.rememberthepillsbot.handlers.items;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.interfaces.BotApiObject;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -12,7 +12,6 @@ import org.telegram.telegrambots.meta.api.objects.Message;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
 import lombok.AccessLevel;
-import lombok.RequiredArgsConstructor;
 import lombok.experimental.FieldDefaults;
 import ru.tyumentsev.rememberthepillsbot.bot.BotState;
 import ru.tyumentsev.rememberthepillsbot.bot.ReminderBot;
@@ -30,14 +29,14 @@ import ru.tyumentsev.rememberthepillsbot.service.MenuService;
  * @see RoutineNotification
  */
 @Component
-@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
-@RequiredArgsConstructor
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class EditRemindItemHandler implements UserRequestHandler {
 
     @Autowired
     MenuService menuService;
     @Autowired
-    ApplicationContext applicationContext;
+    @Lazy
+    ReminderBot reminderBot;
 
     // return list of notifications of reminder item with buttons under each to
     // manage notification.
@@ -45,7 +44,7 @@ public class EditRemindItemHandler implements UserRequestHandler {
     public SendMessage handle(BotUser botUser, BotApiObject botApiObject) {
         String chatId;
         long itemId;
-        ReminderBot reminderBot = applicationContext.getBean("reminderBot", ReminderBot.class);
+        // ReminderBot reminderBot = applicationContext.getBean("reminderBot", ReminderBot.class);
 
         // get id of item, which notifications user wants to edit.
         if (botApiObject.getClass() == CallbackQuery.class) {

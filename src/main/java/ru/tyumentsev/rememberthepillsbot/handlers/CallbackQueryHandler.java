@@ -1,6 +1,5 @@
 package ru.tyumentsev.rememberthepillsbot.handlers;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
@@ -24,7 +23,6 @@ import ru.tyumentsev.rememberthepillsbot.entity.BotUser;
 @Slf4j
 public class CallbackQueryHandler {
 
-    @Autowired
     BotStateContext botStateContext;
 
     public BotApiMethod<?> replyCallbackQuery(CallbackQuery callbackQuery, BotUser botUser) {

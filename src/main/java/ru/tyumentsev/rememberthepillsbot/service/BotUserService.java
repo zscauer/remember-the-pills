@@ -2,10 +2,12 @@ package ru.tyumentsev.rememberthepillsbot.service;
 
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.objects.User;
 
+import lombok.AccessLevel;
+import lombok.RequiredArgsConstructor;
+import lombok.experimental.FieldDefaults;
 import ru.tyumentsev.rememberthepillsbot.bot.BotState;
 import ru.tyumentsev.rememberthepillsbot.bot.UserLocale;
 import ru.tyumentsev.rememberthepillsbot.entity.BotUser;
@@ -19,9 +21,10 @@ import ru.tyumentsev.rememberthepillsbot.repository.BotUserRepository;
  * @see BotState
  */
 @Service
+@FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
+@RequiredArgsConstructor
 public class BotUserService {
 
-    @Autowired
     BotUserRepository botUserRepository;
 
     public void save(BotUser botUser) {

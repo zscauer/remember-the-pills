@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
@@ -27,7 +26,6 @@ import lombok.experimental.FieldDefaults;
 @Entity
 @Table(name = "routine_notifications")
 @Getter @Setter
-@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode
 public class RoutineNotification {
@@ -36,7 +34,7 @@ public class RoutineNotification {
     long id;
     
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "remind_id", insertable = false, updatable = false)
+    @JoinColumn(name = "remind_id")
     RemindItem remindItem;
     
     @Column(name = "notification_time")
