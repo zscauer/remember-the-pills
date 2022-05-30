@@ -15,6 +15,7 @@ import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.FieldDefaults;
 
@@ -28,6 +29,7 @@ import lombok.experimental.FieldDefaults;
 @Getter @Setter
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode
+@NoArgsConstructor
 public class RoutineNotification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

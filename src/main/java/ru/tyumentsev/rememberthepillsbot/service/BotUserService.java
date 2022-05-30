@@ -1,5 +1,7 @@
 package ru.tyumentsev.rememberthepillsbot.service;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
@@ -26,6 +28,7 @@ import ru.tyumentsev.rememberthepillsbot.repository.BotUserRepository;
 public class BotUserService {
 
     BotUserRepository botUserRepository;
+    Map<String, BotState> menuStates = generateMenuStates();
 
     public void save(BotUser botUser) {
         if (botUser.getUserLocale() == null) {
@@ -53,77 +56,32 @@ public class BotUserService {
     }
 
     public void setBotState(BotUser botUser, String messageText) {
-        if (botUser.getBotState() == null) {
-            botUser.setBotState(BotState.SHOW_MAIN_MENU);
-        }
-
         if (messageText.contains("buttonItems")) {
-            switchItemListMenu(botUser, messageText);
-        } else if (messageText.contains("buttonItem")) {
-            switchItemMenu(botUser, messageText.split(":")[0]);
-        } else if (messageText.contains("buttonNotification")) {
-            switchNotificationMenu(botUser, messageText.split(":")[0]);
+            botUser.setBotState(menuStates.getOrDefault(messageText, BotState.SHOW_MAIN_MENU));    
         } else {
-            switchBotMenu(botUser, messageText);
+            botUser.setBotState(menuStates.getOrDefault(messageText.split(":")[0], BotState.SHOW_MAIN_MENU));
         }
     }
 
-    private void switchItemListMenu(BotUser botUser, String messageText) {
-        switch (messageText) {
-            case "buttonItemsAdd":
-                botUser.setBotState(BotState.ITEM_ADD);
-                break;
-            case "buttonItemsChoose":
-                botUser.setBotState(BotState.ITEM_CHOOSE);
-                break;
-            case "buttonItemsDeleteAll":
-                botUser.setBotState(BotState.ITEM_DELETE_ALL);
-                break;
-        }
-    }
+    private Map<String, BotState> generateMenuStates() {
+        Map<String, BotState> states = new HashMap<>();
+        
+        states.put("buttonItemsAdd", BotState.ITEM_ADD);
+        states.put("buttonItemsChoose", BotState.ITEM_CHOOSE);
+        states.put("buttonItemsDeleteAll", BotState.ITEM_DELETE_ALL);
+        states.put("buttonItemEdit", BotState.ITEM_EDIT);
+        states.put("buttonItemDelete", BotState.ITEM_DELETE);
+        states.put("buttonItemAddNotification", BotState.ITEM_ADD_NOTIFICATION);
+        states.put("buttonNotificationEdit", BotState.ITEM_EDIT_NOTIFICATION);
+        states.put("buttonNotificationDelete", BotState.ITEM_DELETE_NOTIFICATION);
 
-    private void switchItemMenu(BotUser botUser, String messageText) {
-        switch (messageText) {
-            case "buttonItemEdit":
-                botUser.setBotState(BotState.ITEM_EDIT);
-                break;
-            case "buttonItemDelete":
-                botUser.setBotState(BotState.ITEM_DELETE);
-                break;
-            case "buttonItemAddNotification":
-                botUser.setBotState(BotState.ITEM_ADD_NOTIFICATION);
-                break;
-        }
-    }
-
-    private void switchNotificationMenu(BotUser botUser, String messageText) {
-        switch (messageText) {
-            case "buttonNotificationEdit":
-                botUser.setBotState(BotState.ITEM_EDIT_NOTIFICATION);
-                break;
-            case "buttonNotificationDelete":
-                botUser.setBotState(BotState.ITEM_DELETE_NOTIFICATION);
-                break;
-        }
-    }
-
-    private void switchBotMenu(BotUser botUser, String messageText) {
-        switch (messageText) {
-            case "Main menu":
-                botUser.setBotState(BotState.SHOW_MAIN_MENU);
-            case "Главное меню":
-                botUser.setBotState(BotState.SHOW_MAIN_MENU);
-                break;
-            case "My reminders":
-                botUser.setBotState(BotState.SHOW_USER_INFO);
-            case "Мои напоминания":
-                botUser.setBotState(BotState.SHOW_USER_INFO);
-                break;
-            case "Help":
-                botUser.setBotState(BotState.SHOW_HELP_MENU);
-            case "Помощь":
-                botUser.setBotState(BotState.SHOW_HELP_MENU);
-                break;
-        }
+        states.put("Main menu", BotState.SHOW_MAIN_MENU);
+        states.put("Главное меню", BotState.SHOW_MAIN_MENU);
+        states.put("My reminders", BotState.SHOW_USER_INFO);
+        states.put("Мои напоминания", BotState.SHOW_USER_INFO);
+        states.put("Help", BotState.SHOW_HELP_MENU);
+        states.put("Помощь", BotState.SHOW_HELP_MENU);
+        
+        return states;
     }
 }

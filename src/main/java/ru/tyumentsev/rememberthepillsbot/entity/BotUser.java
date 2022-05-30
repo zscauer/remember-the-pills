@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import lombok.experimental.FieldDefaults;
@@ -39,6 +40,7 @@ import ru.tyumentsev.rememberthepillsbot.bot.UserLocale;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @EqualsAndHashCode(exclude = "remindItems")
 @ToString(exclude = { "userLocale", "remindItems" })
+@NoArgsConstructor
 public class BotUser {
     @Id
     @Column(updatable = false)
