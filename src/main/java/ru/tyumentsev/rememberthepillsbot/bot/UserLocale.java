@@ -10,12 +10,13 @@ public enum UserLocale {
     ru_RU,
     en_US;
 
-    public static UserLocale getUserLocaleByCode(String localeCode) {
-        switch (localeCode) {
-            case "ru":
-                return ru_RU;
-            default:
-                return en_US;
+    public static UserLocale getUserLocaleByCode(final String localeCode) {
+        if (localeCode == null) {
+            return en_US;
+        } else if (localeCode.equalsIgnoreCase("ru")) {
+            return ru_RU;
+        } else {
+            return en_US;
         }
     }
 }

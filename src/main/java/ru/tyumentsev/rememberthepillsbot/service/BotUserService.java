@@ -29,30 +29,26 @@ public class BotUserService {
 
     BotUserRepository botUserRepository;
     Map<String, BotState> menuStates = generateMenuStates();
-
+    
+    public BotUser create(final long id) {
+        return new BotUser(id);
+    }
+    
     public void save(BotUser botUser) {
         if (botUser.getUserLocale() == null) {
             botUser.setUserLocale(UserLocale.en_US);
         }
+        
         botUserRepository.save(botUser);
     }
 
     public BotUser findByUser(User user) {
         Optional<BotUser> optionalBotUser = botUserRepository.findById(user.getId());
-        BotUser foundUser = null;
-
-        if (optionalBotUser.isPresent()) {
-            foundUser = optionalBotUser.get();
-        } else {
-            foundUser = create(user.getId());
-        }
+        BotUser foundUser = optionalBotUser.isPresent() ? optionalBotUser.get() : create(user.getId());
 
         foundUser.setUserLocale(UserLocale.getUserLocaleByCode(user.getLanguageCode()));
+        
         return foundUser;
-    }
-
-    public BotUser create(long id) {
-        return new BotUser(id);
     }
 
     public void setBotState(BotUser botUser, String messageText) {

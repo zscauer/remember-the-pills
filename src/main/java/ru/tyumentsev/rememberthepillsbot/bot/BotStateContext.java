@@ -24,7 +24,7 @@ import ru.tyumentsev.rememberthepillsbot.handlers.UserRequestHandler;
 @FieldDefaults(level = AccessLevel.PRIVATE, makeFinal = true)
 public class BotStateContext {
     
-    // keeps all handlers to call needed later depending on user state
+    // keeps all handlers to call needed later depending on user state.
     Map<States, UserRequestHandler> messageHandlers = new HashMap<>();
     
     public BotStateContext(List<UserRequestHandler> userRequestHandlers) {

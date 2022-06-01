@@ -18,11 +18,11 @@ public class NotificationCache {
     // key - chat id, value - id of editable item.
     private Map<Long, Long> remindItems = new HashMap<>();
 
-    public void put(long chatId, long remindItemId) {
+    public void put(final long chatId, final long remindItemId) {
         remindItems.put(chatId, remindItemId);
     }
 
-    public Long take(long chatId) {
+    public Long take(final long chatId) {
         if (remindItems.get(chatId) != null) {
             return remindItems.remove(chatId);
         } else {
