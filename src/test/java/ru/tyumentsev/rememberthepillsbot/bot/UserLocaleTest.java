@@ -8,11 +8,15 @@ import java.util.Map;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
+
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class UserLocaleTest {
-    private Map<String, UserLocale> locales = new HashMap<>();
+    static Map<String, UserLocale> locales = new HashMap<>();
 
     @BeforeAll
-    void init() {
+    static void init() {
         locales.put("Ru", UserLocale.ru_RU);
         locales.put("en", UserLocale.en_US);
         locales.put("fr", UserLocale.en_US);

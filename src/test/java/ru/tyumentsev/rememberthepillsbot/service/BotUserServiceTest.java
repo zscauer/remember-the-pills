@@ -15,11 +15,14 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.telegram.telegrambots.meta.api.objects.User;
 
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 import ru.tyumentsev.rememberthepillsbot.bot.UserLocale;
 import ru.tyumentsev.rememberthepillsbot.entity.BotUser;
 import ru.tyumentsev.rememberthepillsbot.repository.BotUserRepository;
 
 @ExtendWith(MockitoExtension.class)
+@FieldDefaults(level = AccessLevel.PRIVATE)
 public class BotUserServiceTest {
 
     @Mock
@@ -28,7 +31,7 @@ public class BotUserServiceTest {
     BotUserRepository botUserRepository;
     BotUserService botUserService;
 
-    private final static long USER_ID = 333L;
+    final static long USER_ID = 333L;
 
     @BeforeEach
     void init() {

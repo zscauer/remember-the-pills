@@ -7,11 +7,15 @@ import static org.junit.jupiter.api.Assertions.assertNull;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
-public class NotificationCacheTest {
-    private static final long CHAT_ID = 111_111L;
-    private static final long ITEM_ID = 111_111L;
+import lombok.AccessLevel;
+import lombok.experimental.FieldDefaults;
 
-    private static NotificationCache notificationCache;
+@FieldDefaults(level = AccessLevel.PRIVATE)
+public class NotificationCacheTest {
+    static final long CHAT_ID = 111_111L;
+    static final long ITEM_ID = 111_111L;
+
+    static NotificationCache notificationCache;
 
     @BeforeAll
     static void init() {

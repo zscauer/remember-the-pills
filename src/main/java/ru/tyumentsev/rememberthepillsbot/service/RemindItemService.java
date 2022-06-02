@@ -31,6 +31,7 @@ public class RemindItemService {
         remindItem.setName(remindItemCacheEntity.getName());
         remindItem.setStartDate(remindItemCacheEntity.getStartDate());
         remindItem.setEndDate(remindItemCacheEntity.getEndDate());
+        
         return remindItem;
     }
 
@@ -42,7 +43,7 @@ public class RemindItemService {
         remindItemRepository.delete(remindItem);
     }
 
-    public RemindItem findById(long id) {
+    public RemindItem getById(long id) {
         return remindItemRepository.getById(id);
     }
 

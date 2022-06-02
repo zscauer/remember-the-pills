@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -32,13 +33,15 @@ public class MenuService {
     // items.
     Map<UserLocale, Map<String, ReplyKeyboard>> keyboards = new HashMap<>();
 
-    public MenuService(LocaleMessageService localeMessageService) {
+    public MenuService(LocaleMessageService localeMessageService, Set<UserLocale> userLocales) {
         this.localeMessageService = localeMessageService;
-        putLocalizedKeyboards(UserLocale.ru_RU);
-        putLocalizedKeyboards(UserLocale.en_US);
+        
+        for (UserLocale userLocale : userLocales) {
+            putLocalizedKeyboards(userLocale);
+        }
     }
 
-    private void putLocalizedKeyboards(UserLocale userLocale) {
+    private void putLocalizedKeyboards(final UserLocale userLocale) {
         Map<String, ReplyKeyboard> localizedKeyboards = new HashMap<>();
         localizedKeyboards.put("mainMenuKeyboard", getReplyKeyboard(getMainMenuKeyboard(userLocale)));
         localizedKeyboards.put("helpMenuKeyboard", getReplyKeyboard(getHelpMenuKeyboard(userLocale)));
@@ -48,7 +51,8 @@ public class MenuService {
     }
 
     public SendMessage getMainMenuMessage(final String chatId, final String textMessage, UserLocale userLocale) {
-        final SendMessage mainMenuMessage = createMessageWithKeyboard(chatId, localeMessageService.getMessage(textMessage, userLocale),
+        final SendMessage mainMenuMessage = createMessageWithKeyboard(chatId,
+                localeMessageService.getMessage(textMessage, userLocale),
                 keyboards.get(userLocale).get("mainMenuKeyboard"));
 
         return mainMenuMessage;
@@ -107,13 +111,16 @@ public class MenuService {
         return inlineKeyboardMarkup;
     }
 
-    private Map<String, InlineKeyboardButton> getUserProfileKeyboardButtons(UserLocale userLocale) {
+    private Map<String, InlineKeyboardButton> getUserProfileKeyboardButtons(final UserLocale userLocale) {
 
         Map<String, InlineKeyboardButton> buttons = new HashMap<>();
-        
-        buttons.put("buttonItemsAdd", new InlineKeyboardButton(localeMessageService.getMessage("menu.Add", userLocale)));
-        buttons.put("buttonItemsChoose", new InlineKeyboardButton(localeMessageService.getMessage("menu.Edit", userLocale)));
-        buttons.put("buttonItemsDeleteAll", new InlineKeyboardButton(localeMessageService.getMessage("menu.DeleteAllReminds", userLocale)));
+
+        buttons.put("buttonItemsAdd",
+                new InlineKeyboardButton(localeMessageService.getMessage("menu.Add", userLocale)));
+        buttons.put("buttonItemsChoose",
+                new InlineKeyboardButton(localeMessageService.getMessage("menu.Edit", userLocale)));
+        buttons.put("buttonItemsDeleteAll",
+                new InlineKeyboardButton(localeMessageService.getMessage("menu.DeleteAllReminds", userLocale)));
 
         return buttons;
     }
@@ -130,13 +137,13 @@ public class MenuService {
         return replyKeyboardMarkup;
     }
 
-    private List<KeyboardRow> getMainMenuKeyboard(UserLocale userLocale) {
+    private List<KeyboardRow> getMainMenuKeyboard(final UserLocale userLocale) {
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow row1 = new KeyboardRow();
         KeyboardRow row2 = new KeyboardRow();
 
         row1.add(new KeyboardButton(localeMessageService.getMessage("menu.UserReminds", userLocale)));
-        row2.add(new KeyboardButton(localeMessageService.getMessage("menu.Help", userLocale)));   
+        row2.add(new KeyboardButton(localeMessageService.getMessage("menu.Help", userLocale)));
 
         keyboard.add(row1);
         keyboard.add(row2);
@@ -144,13 +151,13 @@ public class MenuService {
         return keyboard;
     }
 
-    private List<KeyboardRow> getHelpMenuKeyboard(UserLocale userLocale) {
+    private List<KeyboardRow> getHelpMenuKeyboard(final UserLocale userLocale) {
         List<KeyboardRow> keyboard = new ArrayList<>();
         KeyboardRow row1 = new KeyboardRow();
         KeyboardRow row2 = new KeyboardRow();
 
         row1.add(new KeyboardButton(localeMessageService.getMessage("menu.MainMenu", userLocale)));
-        row2.add(new KeyboardButton(localeMessageService.getMessage("menu.UserReminds", userLocale)));        
+        row2.add(new KeyboardButton(localeMessageService.getMessage("menu.UserReminds", userLocale)));
 
         keyboard.add(row1);
         keyboard.add(row2);
@@ -165,18 +172,21 @@ public class MenuService {
      * @param userLocale user locale to define buttons text
      * @return keyboard with buttons, that mapped to current remind
      */
-    private ReplyKeyboard getUserRemindItemKeyboard(RemindItem remindItem, UserLocale userLocale) {
+    private ReplyKeyboard getUserRemindItemKeyboard(final RemindItem remindItem, final UserLocale userLocale) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
-        InlineKeyboardButton keyboardButtonAddNotification = new InlineKeyboardButton(localeMessageService.getMessage("menu.AddRemind", userLocale));
+        InlineKeyboardButton keyboardButtonAddNotification = new InlineKeyboardButton(
+                localeMessageService.getMessage("menu.AddRemind", userLocale));
         String addRemindNotification = String.format("%s:%s", "buttonItemAddNotification", remindItem.getId());
         keyboardButtonAddNotification.setCallbackData(addRemindNotification);
 
-        InlineKeyboardButton keyboardButtonEdit = new InlineKeyboardButton(localeMessageService.getMessage("menu.Edit", userLocale));
+        InlineKeyboardButton keyboardButtonEdit = new InlineKeyboardButton(
+                localeMessageService.getMessage("menu.Edit", userLocale));
         String editRemind = String.format("%s:%s", "buttonItemEdit", remindItem.getId());
         keyboardButtonEdit.setCallbackData(editRemind);
 
-        InlineKeyboardButton keyboardButtonDelete = new InlineKeyboardButton(localeMessageService.getMessage("menu.Delete", userLocale));
+        InlineKeyboardButton keyboardButtonDelete = new InlineKeyboardButton(
+                localeMessageService.getMessage("menu.Delete", userLocale));
         String deleteRemind = String.format("%s:%s", "buttonItemDelete", remindItem.getId());
         keyboardButtonDelete.setCallbackData(deleteRemind);
 
@@ -198,19 +208,22 @@ public class MenuService {
     /**
      * Generates keyboard for manage selected notification.
      * 
-     * @param routineNotification notification, that will be managed by this keyboard
-     * @param userLocale user locale to define buttons text
+     * @param routineNotification notification, that will be managed by this
+     *                            keyboard
+     * @param userLocale          user locale to define buttons text
      * @return keyboard with buttons, that mapped to current notifications
      */
-    private ReplyKeyboard getUserRoutineNotificationKeyboard(RoutineNotification routineNotification,
-            UserLocale userLocale) {
+    private ReplyKeyboard getUserRoutineNotificationKeyboard(final RoutineNotification routineNotification,
+            final UserLocale userLocale) {
         InlineKeyboardMarkup inlineKeyboardMarkup = new InlineKeyboardMarkup();
 
-        InlineKeyboardButton keyboardButtonEdit = new InlineKeyboardButton(localeMessageService.getMessage("menu.Edit", userLocale));
+        InlineKeyboardButton keyboardButtonEdit = new InlineKeyboardButton(
+                localeMessageService.getMessage("menu.Edit", userLocale));
         String editRemind = String.format("%s:%s", "buttonNotificationEdit", routineNotification.getId());
         keyboardButtonEdit.setCallbackData(editRemind);
 
-        InlineKeyboardButton keyboardButtonDelete = new InlineKeyboardButton(localeMessageService.getMessage("menu.Delete", userLocale));
+        InlineKeyboardButton keyboardButtonDelete = new InlineKeyboardButton(
+                localeMessageService.getMessage("menu.Delete", userLocale));
         String deleteRemind = String.format("%s:%s", "buttonNotificationDelete", routineNotification.getId());
         keyboardButtonDelete.setCallbackData(deleteRemind);
 
@@ -225,7 +238,7 @@ public class MenuService {
         return inlineKeyboardMarkup;
     }
 
-    private SendMessage createMessageWithKeyboard(final String chatId, String textMessage,
+    private SendMessage createMessageWithKeyboard(final String chatId, final String textMessage,
             final ReplyKeyboard replyKeyboardMarkup) {
 
         final SendMessage sendMessage = SendMessage.builder()

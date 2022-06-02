@@ -20,7 +20,7 @@ public class RemindItemCacheService {
     
     RemindItemCacheRepository remindItemMongoRepository;
 
-    public RemindItemCacheEntity findByChatId(long chatId) {
+    public RemindItemCacheEntity findByChatId(final long chatId) {
         return remindItemMongoRepository.findByChatId(chatId);
     }
 

@@ -42,7 +42,7 @@ public class ReplyMessageService {
         return messages;
     }
 
-    public SendMessage getReplyMessage(BotUser botUser, String chatId, States itemState) {
+    public SendMessage getReplyMessage(final BotUser botUser, final String chatId, final States itemState) {
         UserLocale userLocale = botUser.getUserLocale();
 
         if (itemState == RemindItemState.ITEM_SUCCESSFULLY_ADDED) {
@@ -56,11 +56,11 @@ public class ReplyMessageService {
         }
     }
 
-    public SendMessage getReplyMessage(BotUser botUser, String chatId, String messageText) {
+    public SendMessage getReplyMessage(final BotUser botUser, final String chatId, final String messageText) {
         return new SendMessage(chatId, localeMessageService.getMessage(messageText, botUser.getUserLocale()));
     }
 
-    public SendMessage getReplyMessage(BotUser botUser, String chatId, States itemState, Object... args) {
+    public SendMessage getReplyMessage(final BotUser botUser, final String chatId, final States itemState, Object... args) {
         return new SendMessage(chatId,
                 localeMessageService.getMessage(stateMessages.get(itemState), botUser.getUserLocale(), args));
     }

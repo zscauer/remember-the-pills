@@ -22,11 +22,11 @@ public class LocaleMessageService {
     
     MessageSource messageSource;
 
-    public String getMessage(String message, UserLocale userLocale) {
+    public String getMessage(final String message, final UserLocale userLocale) {
         return messageSource.getMessage(message, null, Locale.forLanguageTag(userLocale.toString()));
     }
 
-    public String getMessage(String message, UserLocale userLocale, Object... args) {
+    public String getMessage(final String message, final UserLocale userLocale, Object... args) {
         return messageSource.getMessage(message, args, Locale.forLanguageTag(userLocale.toString()));
     }
 
